@@ -110,7 +110,7 @@ class OverlayService : Service() {
         val container = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             background = roundedBg(color = 0xEE1a1a2e.toInt(), radius = dp(18f))
-            elevation = dp(10f)
+            elevation = dp(10f).toFloat()
         }
 
         container.addView(buildDragHandle(), lp(dp(210f), dp(46f)))
