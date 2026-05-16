@@ -16,7 +16,7 @@ No root required. Works with any standard Android TV / Leanback app.
 
 ---
 
-## Build via GitHub Actions (no PC needed)
+## Build via GitHub Actions
 
 1. **Fork or push** this repo to your GitHub account
 2. Go to **Actions** tab → select **"Build Debug APK"** → click **"Run workflow"**
