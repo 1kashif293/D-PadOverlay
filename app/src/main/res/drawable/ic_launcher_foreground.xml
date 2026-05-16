@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- TV screen body -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M18,34 L90,34 Q94,34 94,38 L94,76 Q94,80 90,80 L18,80 Q14,80 14,76 L14,38 Q14,34 18,34 Z" />
+
+    <!-- Screen inner (dark) -->
+    <path
+        android:fillColor="#1a1a2e"
+        android:pathData="M20,36 L88,36 L88,78 L20,78 Z" />
+
+    <!-- D-pad cross shape on screen -->
+    <!-- Vertical bar -->
+    <path
+        android:fillColor="#6c3fc4"
+        android:pathData="M51,46 L57,46 L57,70 L51,70 Z" />
+    <!-- Horizontal bar -->
+    <path
+        android:fillColor="#6c3fc4"
+        android:pathData="M39,52 L69,52 L69,64 L39,64 Z" />
+    <!-- Centre circle -->
+    <path
+        android:fillColor="#a78bfa"
+        android:pathData="M54,58 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 Z" />
+
+    <!-- TV legs -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M30,80 L38,88 L42,88 L38,80 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M78,80 L70,88 L66,88 L70,80 Z" />
+</vector>

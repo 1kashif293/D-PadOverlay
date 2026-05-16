@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TV Remote Overlay</string>
+    <string name="accessibility_service_label">TV Remote Navigation Service</string>
+    <string name="accessibility_service_description">Enables on-screen D-pad buttons to navigate Android TV apps by moving accessibility focus between elements — just like a physical remote control.</string>
+</resources>

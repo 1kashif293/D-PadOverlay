@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand palette (dark purple space theme) -->
+    <color name="primary">#6c3fc4</color>
+    <color name="primary_dark">#0f3460</color>
+    <color name="accent">#e94560</color>
+
+    <!-- Backgrounds -->
+    <color name="bg_dark">#1a1a2e</color>
+    <color name="card_dark">#16213e</color>
+    <color name="card_error">#8B1A1A</color>
+    <color name="card_success">#1B5E20</color>
+
+    <!-- Text -->
+    <color name="white">#FFFFFF</color>
+    <color name="text_hint">#90A4AE</color>
+
+    <!-- Status indicators -->
+    <color name="status_success">#2E7D32</color>
+    <color name="status_error">#8B1A1A</color>
+
+    <!-- Launcher icon background -->
+    <color name="ic_launcher_background">#1a1a2e</color>
+</resources>
