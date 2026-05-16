@@ -50,7 +50,13 @@ class OverlayService : Service() {
     override fun onCreate() {
         super.onCreate()
         windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
-        startForeground(NOTIF_ID, buildNotification())
+        try {
+            startForeground(NOTIF_ID, buildNotification())
+        } catch (e: Exception) {
+            // On some devices/OS versions startForeground can fail;
+            // we still attempt to show the overlay.
+            e.printStackTrace()
+        }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -88,7 +94,12 @@ class OverlayService : Service() {
             y = 200
         }
 
-        windowManager?.addView(view, layoutParams)
+        try {
+            windowManager?.addView(view, layoutParams)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            overlayRoot = null
+        }
     }
 
     private fun removeOverlay() {
@@ -106,7 +117,6 @@ class OverlayService : Service() {
     // ─── View construction ────────────────────────────────────────────────────
 
     private fun buildRemoteView(): View {
-        // Outer container with rounded corners and semi-transparent dark background
         val container = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             background = roundedBg(color = 0xEE1a1a2e.toInt(), radius = dp(18f))
@@ -128,13 +138,13 @@ class OverlayService : Service() {
         }
 
         val title = TextView(this).apply {
-            text = "📺  TV Remote"
+            text = "TV Remote"
             setTextColor(Color.WHITE)
             textSize = 13f
             id = View.generateViewId()
         }
 
-        val closeBtn = buildIconButton("✕", 0xAAFF4444.toInt(), cornerRadius = dp(6f)).apply {
+        val closeBtn = buildIconButton("X", 0xAAFF4444.toInt(), cornerRadius = dp(6f)).apply {
             id = View.generateViewId()
             setOnClickListener {
                 removeOverlay()
@@ -153,7 +163,6 @@ class OverlayService : Service() {
             it.addRule(RelativeLayout.CENTER_VERTICAL)
         })
 
-        // Make handle draggable
         handle.setOnTouchListener { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
@@ -168,7 +177,7 @@ class OverlayService : Service() {
                         x = dragStartX + (event.rawX - touchStartRawX).toInt()
                         y = dragStartY + (event.rawY - touchStartRawY).toInt()
                     }
-                    windowManager?.updateViewLayout(overlayRoot, layoutParams)
+                    runCatching { windowManager?.updateViewLayout(overlayRoot, layoutParams) }
                     true
                 }
                 else -> false
@@ -178,19 +187,17 @@ class OverlayService : Service() {
         return handle
     }
 
-    /** D-pad: ▲ ◄ ● ► ▼ arranged in a cross */
+    /** D-pad: Up / Down / Left / Right / OK */
     private fun buildDpad(): View {
         val area = RelativeLayout(this).apply {
             setBackgroundColor(0x221a1a2e.toInt())
         }
 
-        // Directional buttons
-        val btnUp    = buildDpadButton("▲")
-        val btnDown  = buildDpadButton("▼")
-        val btnLeft  = buildDpadButton("◄")
-        val btnRight = buildDpadButton("►")
+        val btnUp    = buildDpadButton("^")
+        val btnDown  = buildDpadButton("v")
+        val btnLeft  = buildDpadButton("<")
+        val btnRight = buildDpadButton(">")
 
-        // Centre OK button — circular purple
         val btnOk = Button(this).apply {
             text = "OK"
             setTextColor(Color.WHITE)
@@ -200,9 +207,8 @@ class OverlayService : Service() {
             setOnClickListener { RemoteAccessibilityService.performClick() }
         }
 
-        val size = dp(58f)
+        val size   = dp(58f)
         val margin = dp(12f)
-        val centreOffset = (size + margin * 2) / 2   // half of (button + two gaps)
 
         area.addView(btnUp, RelativeLayout.LayoutParams(size, size).also {
             it.addRule(RelativeLayout.CENTER_HORIZONTAL)
@@ -227,7 +233,6 @@ class OverlayService : Service() {
             it.addRule(RelativeLayout.CENTER_IN_PARENT)
         })
 
-        // Wire navigation
         btnUp.setOnClickListener    { RemoteAccessibilityService.navigate(View.FOCUS_UP) }
         btnDown.setOnClickListener  { RemoteAccessibilityService.navigate(View.FOCUS_DOWN) }
         btnLeft.setOnClickListener  { RemoteAccessibilityService.navigate(View.FOCUS_LEFT) }
@@ -236,7 +241,7 @@ class OverlayService : Service() {
         return area
     }
 
-    /** Bottom row: Home | Menu/Recents | Back */
+    /** Bottom row: Home | Menu | Back */
     private fun buildBottomRow(): LinearLayout {
         val row = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
@@ -245,13 +250,13 @@ class OverlayService : Service() {
             setPadding(dp(8f), dp(6f), dp(8f), dp(6f))
         }
 
-        val btnHome  = buildActionButton("⌂")
-        val btnMenu  = buildActionButton("☰")
-        val btnBack  = buildActionButton("↩")
+        val btnHome = buildActionButton("HM")
+        val btnMenu = buildActionButton("MN")
+        val btnBack = buildActionButton("BK")
 
-        btnHome.setOnClickListener  { RemoteAccessibilityService.performHome() }
-        btnMenu.setOnClickListener  { RemoteAccessibilityService.performMenu() }
-        btnBack.setOnClickListener  { RemoteAccessibilityService.performBack() }
+        btnHome.setOnClickListener { RemoteAccessibilityService.performHome() }
+        btnMenu.setOnClickListener { RemoteAccessibilityService.performMenu() }
+        btnBack.setOnClickListener { RemoteAccessibilityService.performBack() }
 
         val btnLp = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1f).also {
             it.marginStart = dp(4f)
@@ -260,27 +265,25 @@ class OverlayService : Service() {
 
         row.addView(btnHome, btnLp)
         row.addView(btnMenu, btnLp)
-        row.addView(btnBack,  btnLp)
+        row.addView(btnBack, btnLp)
 
         return row
     }
 
-    // ─── Helpers ──────────────────────────────────────────────────────────────
+    // ─── Button helpers ───────────────────────────────────────────────────────
 
     private fun buildDpadButton(symbol: String) = Button(this).apply {
         text = symbol
         setTextColor(Color.WHITE)
-        textSize = 20f
-        background = roundedBg(0xFF16213e.toInt(), dp(10f)).also {
-            (it as? GradientDrawable)?.setStroke(dp(1.5f), 0xFF533483.toInt())
-        }
+        textSize = 18f
+        background = roundedBg(0xFF16213e.toInt(), dp(10f))
         setPadding(0, 0, 0, 0)
     }
 
     private fun buildActionButton(symbol: String) = Button(this).apply {
         text = symbol
         setTextColor(Color.WHITE)
-        textSize = 18f
+        textSize = 11f
         background = roundedBg(0xFF533483.toInt(), dp(8f))
         setPadding(0, 0, 0, 0)
     }
@@ -307,10 +310,10 @@ class OverlayService : Service() {
             shape = GradientDrawable.RECTANGLE
             setColor(color)
             cornerRadii = floatArrayOf(
-                radius.toFloat(), radius.toFloat(),   // top-left
-                radius.toFloat(), radius.toFloat(),   // top-right
-                0f, 0f,                               // bottom-right
-                0f, 0f                                // bottom-left
+                radius.toFloat(), radius.toFloat(),
+                radius.toFloat(), radius.toFloat(),
+                0f, 0f,
+                0f, 0f
             )
         }
 
@@ -319,10 +322,10 @@ class OverlayService : Service() {
             shape = GradientDrawable.RECTANGLE
             setColor(color)
             cornerRadii = floatArrayOf(
-                0f, 0f,                               // top-left
-                0f, 0f,                               // top-right
-                radius.toFloat(), radius.toFloat(),   // bottom-right
-                radius.toFloat(), radius.toFloat()    // bottom-left
+                0f, 0f,
+                0f, 0f,
+                radius.toFloat(), radius.toFloat(),
+                radius.toFloat(), radius.toFloat()
             )
         }
 
@@ -359,7 +362,7 @@ class OverlayService : Service() {
             .build()
     }
 
-    // ─── Layout param / dp helpers ────────────────────────────────────────────
+    // ─── Helpers ──────────────────────────────────────────────────────────────
 
     private fun lp(w: Int, h: Int) = LinearLayout.LayoutParams(w, h)
 
