@@ -11,11 +11,11 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <!-- ── Header ─────────────────────────────────────────────── -->
+        <!-- Header -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="📺  TV Remote Overlay"
+            android:text="TV Remote Overlay"
             android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="@color/white"
@@ -31,7 +31,7 @@
             android:gravity="center"
             android:layout_marginBottom="28dp" />
 
-        <!-- ── Step 1 — Overlay Permission ───────────────────────── -->
+        <!-- Step 1 - Overlay Permission -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardOverlayPermission"
             android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Step 1 — Overlay Permission"
+                    android:text="Step 1 - Overlay Permission"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     android:textColor="@color/white"
@@ -60,7 +60,7 @@
                     android:id="@+id/tvOverlayStatus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="❌  Overlay Permission — Required"
+                    android:text="Overlay Permission - Required"
                     android:textSize="13sp"
                     android:textColor="@color/white"
                     android:layout_marginBottom="12dp" />
@@ -75,7 +75,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- ── Step 2 — Accessibility Service ────────────────────── -->
+        <!-- Step 2 - Accessibility Service -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardAccessibilityPermission"
             android:layout_width="match_parent"
@@ -94,7 +94,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Step 2 — Accessibility Service"
+                    android:text="Step 2 - Accessibility Service"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     android:textColor="@color/white"
@@ -104,7 +104,7 @@
                     android:id="@+id/tvAccessibilityStatus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="❌  Accessibility Service — Disabled"
+                    android:text="Accessibility Service - Disabled"
                     android:textSize="13sp"
                     android:textColor="@color/white"
                     android:layout_marginBottom="4dp" />
@@ -112,7 +112,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Find \"TV Remote Navigation Service\" and enable it."
+                    android:text="Find TV Remote Navigation Service and enable it."
                     android:textSize="12sp"
                     android:textColor="@color/white"
                     android:alpha="0.75"
@@ -128,7 +128,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- ── Step 3 — Show Remote ───────────────────────────────── -->
+        <!-- Step 3 - Launch the Overlay -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -146,7 +146,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Step 3 — Launch the Overlay"
+                    android:text="Step 3 - Launch the Overlay"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     android:textColor="@color/white"
@@ -156,7 +156,7 @@
                     android:id="@+id/tvStatus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Complete Steps 1 &amp; 2 first."
+                    android:text="Complete Steps 1 and 2 first."
                     android:textSize="13sp"
                     android:textColor="@color/text_hint"
                     android:layout_marginBottom="14dp" />
@@ -186,7 +186,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- ── How it works ──────────────────────────────────────── -->
+        <!-- Button reference -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -212,7 +212,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="▲ ▼ ◄ ►  —  Move focus between elements\nOK  —  Click / select the focused element\n⌂  —  Go to Home screen\n↩  —  Go Back\n☰  —  Recent Apps\n✕  —  Close the overlay\n\nDrag the title bar to reposition the remote."
+                    android:text="Up/Down/Left/Right - Move focus\nOK - Click selected element\nHome - Go to Home screen\nBack - Go Back\nMenu - Recent Apps\nX - Close the overlay\n\nDrag the title bar to reposition."
                     android:textSize="13sp"
                     android:textColor="@color/text_hint"
                     android:lineSpacingExtra="5dp" />
