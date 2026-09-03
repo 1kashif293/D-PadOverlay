@@ -5,7 +5,7 @@ An Android app that puts a **floating D-pad remote** on top of any app on your p
 ---
 
 ## How it works
-
+ 
 | Component | Role |
 |---|---|
 | **Floating Overlay** (`WindowManager`) | Renders the D-pad UI on top of all apps |
